@@ -45,6 +45,7 @@ def get_sio():
             'start_time': event.get('dtstart').dt,
             'end_time': event.get('dtend').dt
         })
+    print schedule_data
 
     # parse JSON in format to be used by Django models
     # format eg: [{'class': '15210', 'times:' ['MWF:1200:1330', 'T:1330:1430']}]
@@ -78,5 +79,7 @@ def get_sio():
         schedule_model_data.append(class_obj)
 
     #print schedule_model_data
+    print "\n\n"
+    print schedule_model_data
     return schedule_model_data
 
