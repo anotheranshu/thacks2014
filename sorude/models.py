@@ -154,18 +154,10 @@ class StudentManager(models.Manager):
   ####################################
 
   # create student object
-  def create_student(self, first_name, last_name, config):
-        
-        # get schedule from sio
-        schedule = get_schedule()
-
-        # get friends/fb_id from fb 
-        # insert method here
-
+  def create_student(self, fb_id, first_name, last_name, friends):
         # create student object
-        student = self.create(first_name=first_name, last_name=last_name, 
-                            schedule=schedule, fb_id=fb_id, 
-                            friend_list=friend_list)
+        student = self.create(fb_id=fb_id, first_name=first_name, last_name=last_name, 
+                              friend_list=friend_list)
         return student
 
 #########################################################
@@ -299,4 +291,3 @@ class Event(models.Model):
   accepts = models.CharField(max_length=1000) # pending/accept/decline
   ratings = models.CharField(max_length=1000) # 1-5 scale
   events = StudentManager()
-
