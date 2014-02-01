@@ -43,6 +43,7 @@
     // Here we specify what we do with the response anytime this event occurs. 
 
     var accessToken = response.authResponse.accessToken;
+    {% csrf_token %}
     post_to_url("{% url 'fb_auth' %}", {'auth_tok': accessToken}, "post");
 
     if (response.status === 'connected') {
