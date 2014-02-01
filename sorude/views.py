@@ -21,7 +21,7 @@ def fb_auth(request):
   if (request.session["auth_tok"]): #There is an auth token
     if (is_user(request.session["auth_tok"])):
       id_num = (facebook.GraphAPI(authtok).get_object("me"))["id"]
-      if (Student.objects.get(fb_id=id_num).schedule = ""):
+      if (Student.objects.get(fb_id=id_num).schedule == ""):
         return render(request, 'sorude/SIOpage/loginpage.html', {})
       return render(request, 'sorude/MainPage/main.html', {})
     else:
