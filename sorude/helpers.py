@@ -19,6 +19,16 @@ def makeFriends(accessToken):
     result = json.dumps(friendslist)
     return result
 
+#Given the access token and the ID number of a FB user, return a JSON of the user's friends.
+def findUserFriends(accessToken, idNum):
+    accessToken = "CAAC101zVZAO0BAKjkwJf7D5zgQUmplVAKHcCzE06Rd7UL8WKuuDmJdq17aeSZBkUL7wFFYZBEnJrSUOoJuYut9sSFcIcfKf1SU2NjBhURyjfFmMZBn3zKEtTlB9I5ZAc1VA5BSHWXmoWNdDuMH8vi81aAdNX1anBqqm9OTrPJqnPlAhJlMmEAQeRSMaXnsBKZBiVG8kTeSrgZDZD"
+    graph = facebook.GraphAPI(accessToken)
+    profile = graph.get_object(str(idNum))
+    friends = graph.get_connections(str(idNum), "friends")
+    friendslist = friends['data']
+    result = json.dumps(friendslist)
+    return result
+
 def diff(a, b):
   b = set(b)
   return [aa for aa in a if aa not in b]
