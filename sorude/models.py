@@ -36,12 +36,8 @@ class Student(models.Model):
                     return False
     return True
 
-
-
-
-
 class Event(models.Model):
-  students = CharField(max_length=1000)
+  students = models.CharField(max_length=1000)
   timestamp = models.DateTimeField()
-  accepts = CharField(max_length=1000)
-  ratings = CharField(max_length=1000)
+  accepts = models.CharField(max_length=1000)
+  ratings = models.CharField(max_length=1000)
