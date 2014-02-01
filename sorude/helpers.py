@@ -115,3 +115,6 @@ def create_user(authtok):
       student.save()
       return student
   return None
+
+def update_sio(authtok, andrew, passwd):
+  return None
