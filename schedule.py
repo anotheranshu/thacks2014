@@ -75,52 +75,39 @@ def get_sio():
                 times = ':'.join([start_time, end_time])
                 days_time = ''.join([days, times])
                 class_obj['time'].append(days_time)
-        print class_obj
         schedule_model_data.append(class_obj)
 
-    #print "Done parsing"
+    self_stime = "T1500"
+    self_etime = "T1800"
+    print "self_stime: " + self_stime[1:] + " self_etime: " + self_etime[1:]
+    free = True
+    self_day = self_stime[0] # assuming stime/etime have same days
+    self_stime = int(self_stime[1:])
+    self_etime = int(self_etime[1:])
+    # iterate through all classes
+    for class_item in schedule_model_data: 
+      class_time = class_item['time']
+      # iterate through time items 
+      for time in class_time: 
+        # iterate through days, find matching day times 
+        days = re.findall('[A-Z]+', time)[0]
+        print "days" + days
+        print list(days)
+        for day in days: 
+            if (day == self_day): 
+                print "current day: " + day
+                # matching day, extract stime/etime
+                times = re.sub('[A-Z]+', '', time).split(':')
+                stime = int(times[0])
+                etime = int(times[1])
+                print "stime: " + str(stime) + " etime: " + str(etime)
+                # check if stime/etime not conflicting with self stime/etime
+                if (not ((self_etime < stime) or (self_stime > etime))): 
+                    # conflicting times
+                    print "conflict"
+                    return False
+    print "no conflict"
+
     #print schedule_model_data
-
-
-
     return schedule_model_data
 
-
-    {'schedule': [
-                    {
-                    'start_time': datetime.datetime(2014, 1, 14, 13, 30), 
-                    'end_time': datetime.datetime(2014, 1, 14, 14, 50), 
-                    'days': [2, 4], 
-                    'summary': u'Foundations of Programming Languages :: 15312 1'}, 
-
-                    {'start_time': datetime.datetime(2014, 1, 15, 11, 30), 
-                    'end_time': datetime.datetime(2014, 1, 15, 12, 20), 'days': [3], 
-                    'summary': u'Foundations of Programming Languages :: 15312 A'}, 
-
-
-                    {'start_time': datetime.datetime(2014, 1, 13, 13, 30), 
-                    'end_time': datetime.datetime(2014, 1, 13, 14, 50), 
-                    'days': [1, 3], 
-                    'summary': u'Parallel Computer Architecture and Programming :: 15418 A'}, 
-                    {'start_time': datetime.datetime(2014, 1, 13, 10, 30), 
-                    'end_time': datetime.datetime(2014, 1, 13, 11, 20), 
-                    
-                    'days': [1, 3, 5], 'summary': u'Physics II for Science Students :: 33112 1'}, 
-                    {'start_time': datetime.datetime(2014, 1, 14, 12, 30), 
-                    'end_time': datetime.datetime(2014, 1, 14, 13, 20), 
-                    'days': [2, 4], 'summary': u'Physics II for Science Students :: 33112 D'}, 
-
-                    {'start_time': datetime.datetime(2014, 1, 13, 9, 0), 
-                    'end_time': datetime.datetime(2014, 1, 13, 10, 20), 
-                    'days': [1, 3], 
-                    'summary': u'Intermediate Microeconomics :: 73230 1'}, 
-                    {'start_time': datetime.datetime(2014, 1, 17, 9, 0), 
-                    'end_time': datetime.datetime(2014, 1, 17, 10, 20), 
-                    'days': [5], 'summary': u'Intermediate Microeconomics :: 73230 B'}, 
-                    
-                    {'start_time': datetime.datetime(2014, 1, 13, 12, 30), 
-                    'end_time': datetime.datetime(2014, 1, 13, 13, 20), 
-                    'days': [1, 3], 'summary': u'Nature of Language :: 80180 1'}, 
-                    {'start_time': datetime.datetime(2014, 1, 17, 11, 30), 
-                    'end_time': datetime.datetime(2014, 1, 17, 12, 20), 
-                    'days': [5], 'summary': u'Nature of Language :: 80180 B'}]}
