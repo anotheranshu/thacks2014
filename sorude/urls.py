@@ -18,4 +18,5 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='index'),
+    url(r'^facebook_login/', views.fb_auth, name='fb_auth'),
 )

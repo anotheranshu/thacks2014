@@ -12,3 +12,6 @@ from django.contrib import messages
 
 def index(request):
   return render(request, 'sorude/fbbutton.html', {})
+
+def fb_auth(request):
+  return render(request,'sorude/fb_login.html', {"auth_tok": request.POST["auth_tok"]})
