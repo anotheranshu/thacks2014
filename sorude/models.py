@@ -174,7 +174,7 @@ class Student(models.Model):
   preferences = models.CharField(max_length=5000) # rank preferences (lunch, workout, study group)
   commitments = models.CharField(max_length=5000) # list of time commitments (time slots)
   # andrew = models.CharField(max_length=100)
-  students = StudentManager()
+  objects = StudentManager()
 
   ################################
   # Getter Methods 
@@ -292,4 +292,4 @@ class Event(models.Model):
   etime = models.DateTimeField()
   accepts = models.CharField(max_length=1000) # pending/accept/decline
   ratings = models.CharField(max_length=1000) # 1-5 scale
-  events = StudentManager()
+  objects = StudentManager()
