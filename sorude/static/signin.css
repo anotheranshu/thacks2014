@@ -45,3 +45,8 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+#fb_button {
+display:block;
+margin-left: 70px;
+}
