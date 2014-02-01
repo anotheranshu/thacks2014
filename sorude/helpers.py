@@ -31,3 +31,11 @@ def intersect(a, b):
 #    m = re.match(r"([A-Z]+)", t)
 #    m.group(0)
     
+def is_user(authtok):
+  if (authtok):
+    graph = facebook.GraphAPI(authtok)
+    if (graph):
+      id_num = graph.get_object("me").id
+      print str(id_num)
+      return (len(Student.objects.filter(fb_id=int(id_num))) > 0)
+  return False

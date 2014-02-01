@@ -9,13 +9,15 @@ from sorude.helpers import *
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
 from django.contrib import messages
+import facebook
 
 def index(request):
   print "I'm in Index"
   return render(request, 'sorude/fbbutton.html', {})
 
 def fb_auth(request):
-  print "This is going to need some more lines outputted..."
   print request.POST["auth_tok"]
-  print "Did it print?"
+  if (request.POST["auth_tok"]):
+    if (is_user(request.POST["auth_tok"])):
+      return render(request, 'sorude/Homepage/hub.html', {"auth_tok": request.POST["auth_tok"]})
   return render(request,'sorude/sorude.html', {"auth_tok": request.POST["auth_tok"]})
