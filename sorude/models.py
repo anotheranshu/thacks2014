@@ -3,16 +3,10 @@ from django.contrib.auth.models import User
 from django.utils import simplejson as json
 import re
 
-from django.db import models
-from django.contrib.auth.models import User
-from django.utils import simplejson as json
-import re
-
 # refer to https://docs.djangoproject.com/en/dev/topics/db/managers/#custom-managers 
 # section Calling custom QuerySet methods from Manager
 
-class StudentQuerySet(models.QuerySet): 
- 
+class StudentQuerySet(models.QuerySet):
   # check if user is free in stime-etime slot, returns boolean value
   def is_free(self, self_stime, self_etime):
     schedule = json.loads(self.schedule)
