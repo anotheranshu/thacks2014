@@ -43,7 +43,7 @@ class StudentManager(models.Manager):
       classes1 = set()
       classes2 = set()
       student_obj = {}
-      student_obj['name'] = self1.user.
+      student_obj['name'] = self1.user.first_name
       # iterate through all classes of user1, add classes to set
       for class_item in schedule1: 
         class_name = schedule1['class_name']
