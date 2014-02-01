@@ -3,13 +3,15 @@ from django.contrib.auth.models import User
 from django.utils import simplejson as json
 import re
 
-class Student(models.Model):
-  user = models.OneToOneField(User)
-  schedule = models.CharField(max_length=5000)
-  fb_id = models.IntegerField(default=0)
-  friend_list = models.CharField(max_length=5000)
-  andrew = models.CharField(max_length=100)
-  
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils import simplejson as json
+import re
+
+# refer to https://docs.djangoproject.com/en/dev/topics/db/managers/#custom-managers 
+# section Calling custom QuerySet methods from Manager
+
+class StudentQuerySet(models.QuerySet): 
   # check if user is free in stime-etime slot
   def is_free(self, self_stime, self_etime):
     schedule = json.loads(self.schedule)
@@ -35,6 +37,23 @@ class Student(models.Model):
                     # conflicting times
                     return False
     return True
+
+class StudentManager(models.Manager)
+  def get_queryset(self): 
+    return STudentQuerySet(self.model, using=self._db)
+  
+
+  def are_free(self, stime, etime): 
+    return self.get_queryset().is_free()
+
+class Student(models.Model):
+  user = models.OneToOneField(User)
+  schedule = models.CharField(max_length=5000)
+  fb_id = models.IntegerField(default=0)
+  friend_list = models.CharField(max_length=5000)
+  andrew = models.CharField(max_length=100)
+
+  freeStudents = StudentManager()
 
 class Event(models.Model):
   students = models.CharField(max_length=1000)
