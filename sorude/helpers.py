@@ -111,7 +111,7 @@ def create_user(authtok):
     if (graph):
       me = graph.get_object("me")
       friends = (graph.get_connections("me", "friends"))["data"]
-      student = Student(fb_id=me["id"], first_name=me["first_name"], last_name=me["last_name"], json.dumps(friends))
+      student = Student(fb_id=me["id"], first_name=me["first_name"], last_name=me["last_name"], friend_list=json.dumps(friends))
       student.save()
       return student
   return None
