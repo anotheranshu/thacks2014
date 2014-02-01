@@ -1,5 +1,4 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.utils import simplejson as json
 import re
 
@@ -43,7 +42,7 @@ class StudentManager(models.Manager):
       classes1 = set()
       classes2 = set()
       student_obj = {}
-      student_obj['name'] = self1.user.first_name
+      student_obj['name'] = self1.first_name
       # iterate through all classes of user1, add classes to set
       for class_item in schedule1: 
         class_name = schedule1['class_name']
@@ -76,12 +75,12 @@ class StudentManager(models.Manager):
     return mutual_classes_list
 
 class Student(models.Model):
-  user = models.OneToOneField(User)
+  first_name = models.CharField(max_length=200)
+  last_name = models.CharField(max_length=200)
   schedule = models.CharField(max_length=5000)
   fb_id = models.IntegerField(default=0)
   friend_list = models.CharField(max_length=5000)
   andrew = models.CharField(max_length=100)
-
   freeStudents = StudentManager()
 
 class Event(models.Model):
