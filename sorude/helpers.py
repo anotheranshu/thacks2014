@@ -19,6 +19,14 @@ def makeFriends(accessToken):
     result = json.dumps(friendslist)
     return result
 
+#gets the ID of the current user, returned as a string
+def getMyId(accessToken):
+    oauth_access_token = "CAAC101zVZAO0BAIaMjZC1orWTs3KQnUuY66108iLbyW0QT3oPhphejlTCCU22ZBprTNFy67DSZCTx0db6ZBX454KwEKXVa2iHZBpsIpVaCJh5mnK3yJhVLaDBqOkVWbKxYwuQ6SRk3rfNkuIPCC6K3FUkSOL5KDFMswMqZCY5m1RVPLjhNnZB0OBwR143z4CibQY6IFWzDabWwZDZD"
+    graph = facebook.GraphAPI(oauth_access_token)
+    me = graph.get_object("me")
+    id = me["id"];
+    print "ID IS "+ str(id)
+
 #Given the access token and the ID number of a FB user, return a JSON of the user's friends.
 def findUserFriends(accessToken, idNum):
     accessToken = "CAAC101zVZAO0BAKjkwJf7D5zgQUmplVAKHcCzE06Rd7UL8WKuuDmJdq17aeSZBkUL7wFFYZBEnJrSUOoJuYut9sSFcIcfKf1SU2NjBhURyjfFmMZBn3zKEtTlB9I5ZAc1VA5BSHWXmoWNdDuMH8vi81aAdNX1anBqqm9OTrPJqnPlAhJlMmEAQeRSMaXnsBKZBiVG8kTeSrgZDZD"
