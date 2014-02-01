@@ -20,4 +20,7 @@ def fb_auth(request):
   if (request.POST["auth_tok"]):
     if (is_user(request.POST["auth_tok"])):
       return render(request, 'sorude/Homepage/hub.html', {"auth_tok": request.POST["auth_tok"]})
+    else:
+      if (create_user(request.POST["auth_tok"])):
+        return render(request, 'sorude/SIOpage/loginpage.html', {"auth_tok": request.POST["auth_tok"]})
   return render(request,'sorude/sorude.html', {"auth_tok": request.POST["auth_tok"]})

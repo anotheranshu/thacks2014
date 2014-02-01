@@ -36,7 +36,7 @@ def is_user(authtok):
   if (authtok):
     graph = facebook.GraphAPI(authtok)
     if (graph):
-      id_num = graph.get_object("me").id
+      id_num = (graph.get_object("me"))["id"]
       print str(id_num)
       return (len(Student.objects.filter(fb_id=int(id_num))) > 0)
   return False
@@ -94,3 +94,14 @@ def suggestEvent(self, self_stime, self_etime):
   else: 
     # not currently free
     return null
+
+def create_user(authtok):
+  if (authtok):
+    graph = facebook.GraphAPI(authtok)
+    if (graph):
+      me = graph.get_object("me")
+      friends = (graph.get_connections("me", "friends"))["data"]
+      student = Student(fb_id=me["id"], first_name=me["first_name"], last_name=me["last_name"], json.dumps(friends))
+      student.save()
+      return student
+  return None
