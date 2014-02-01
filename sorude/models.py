@@ -3,10 +3,16 @@ from django.contrib.auth.models import User
 from django.utils import simplejson as json
 import re
 
-# refer to https://docs.djangoproject.com/en/dev/topics/db/managers/#custom-managers 
-# section Calling custom QuerySet methods from Manager
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils import simplejson as json
+import re
 
-class StudentQuerySet(models.QuerySet):
+# refer to https://docs.djangoproject.com/en/dev/topics/db/managers/#custom-managers 
+# section Calling custom QuerySet methods from Manager 
+
+class StudentManager(models.Manager)
+
   # check if user is free in stime-etime slot, returns boolean value
   def is_free(self, self_stime, self_etime):
     schedule = json.loads(self.schedule)
@@ -41,6 +47,8 @@ class StudentQuerySet(models.QuerySet):
       num = 0 
       classes1 = set()
       classes2 = set()
+      student_obj = {}
+      student_obj['name'] = self1.user.
       # iterate through all classes of user1, add classes to set
       for class_item in schedule1: 
         class_name = schedule1['class_name']
@@ -51,14 +59,26 @@ class StudentQuerySet(models.QuerySet):
         set2.add(class_name)
       # find mutual classes 
       set_mutual = set1.intersection(set2)
-      return len(set_mutual)
+      student_obj['mutual_classes'] = len(set_mutual)
+      return student_obj
 
-class StudentManager(models.Manager):
   def get_queryset(self): 
-    return StudentQuerySet(self.model, using=self._db)
+    return super(StudentManager, self).get_queryset()
 
-  def are_free(self, stime, etime): 
-    return self.get_queryset().is_free()
+  def are_free(stime, etime): 
+    students = get_queryset() 
+    free_students = []
+    for student in students: 
+      if (is_free(student, stime, etime): 
+        free_students.append(student)
+    return free_students
+
+  def mutual_classes(self): 
+    students = get_queryset()
+    mutual_classes_list = []
+    for student in students: 
+      mutual_classes_list.append(students.num_mutual_classes(self, student))
+    return mutual_classes_list
 
 class Student(models.Model):
   user = models.OneToOneField(User)
