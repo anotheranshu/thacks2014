@@ -158,6 +158,7 @@ class StudentManager(models.Manager):
         # create student object
         student = self.create(fb_id=fb_id, first_name=first_name, last_name=last_name, 
                               friend_list=friend_list)
+		student.save()
         return student
 
 #########################################################
@@ -241,6 +242,7 @@ class EventManager(models.Manager):
     event = self.create(students=students, event_type=event_type, 
                         stime=stime, etime=etime, accepts=accepts, 
                         ratings=ratings)
+	event.save()
     return event
 
   ################################

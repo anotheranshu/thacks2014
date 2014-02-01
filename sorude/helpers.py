@@ -107,7 +107,7 @@ def suggestEvent(self, self_stime, self_etime):
     return choice(suggested_friends)
   else: 
     # not currently free
-    return null
+    return None
 
 def create_user(authtok):
   if (authtok):
@@ -120,5 +120,19 @@ def create_user(authtok):
   return None
 
 def update_sio(authtok, andrew, passwd):
-  return get_schedule(andrew, passwd)
+ 	if (authtok): 
+		graph = facebook.GraphAPI(authtok)
+    	if (graph):
+      	me = graph.get_object("me")
+    		fb_id = me["id"] 
+        # get schedule, save to student object
+    		schedule = get_sio(andrew, passwd)
+    		student = Student.objects.get(fb_id=fb_id)
+        student.update_schedule(schedule)
+        return student
+  return None
+
+
+
+
   

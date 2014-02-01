@@ -6,7 +6,7 @@ from icalendar import Calendar, Event, UTC
 import re
 import json
 
-def get_schedule(andrew, passwd):
+def get_sio(andrew, passwd):
 
     s = authenticate('https://s3.as.cmu.edu/sio/index.html', USERNAME, PASSWORD)
     s.headers['Content-Type'] = 'text/x-gwt-rpc; charset=UTF-8'
