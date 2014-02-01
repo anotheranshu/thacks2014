@@ -123,20 +123,23 @@ class StudentManager(models.Manager)
       mutual_students_list.append(students.mutual_students(self, student))
     return mutual_students_list
 
-  # get all the friends a student
-  def get_fb_friends(self): 
-    fb_friends = self['friend_list'].split(' ') # space-delimited list of friends
-    return fb_friends
-
 class EventManager(models.Manager): 
 
 class Student(models.Model):
   user = models.OneToOneField(User)
-  schedule = models.CharField(max_length=5000)
+  # schedule: [{'friend'
+  schedule = models.CharField(max_length=5000) 
   fb_id = models.IntegerField(default=0)
   friend_list = models.CharField(max_length=5000)
   andrew = models.CharField(max_length=100)
   freeStudents = StudentManager()
+
+  # get all the friends a student
+  def get_fb_friends(self): 
+    friends = json.loads(self.friend_list)
+    for ()
+    fb_friends = self['friend_list'].split(' ') # space-delimited list of friends
+    return fb_friends
 
 class Event(models.Model):
   students = models.CharField(max_length=1000)
