@@ -48,6 +48,7 @@ def is_user(authtok):
     if (graph):
       id_num = (graph.get_object("me"))["id"]
       print str(id_num)
+      return True  #THIS LINE IS ONLY HERE FOR TESTING BEFORE WE ACTUALLY SET UP THE DATABASE
       return (len(Student.objects.filter(fb_id=int(id_num))) > 0)
   return False
 
