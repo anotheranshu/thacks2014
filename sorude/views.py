@@ -18,4 +18,4 @@ def fb_auth(request):
   print "This is going to need some more lines outputted..."
   print request.POST["auth_tok"]
   print "Did it print?"
-  return render(request,'sorude/fb_login.html', {"auth_tok": request.POST["auth_tok"]})
+  return render(request,'sorude/sorude.html', {"auth_tok": request.POST["auth_tok"]})
