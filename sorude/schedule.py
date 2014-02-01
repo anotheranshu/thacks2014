@@ -6,9 +6,9 @@ from icalendar import Calendar, Event, UTC
 import re
 import json
 
-def get_sio():
+def get_schedule(andrew, passwd):
 
-    s = authenticate('https://s3.as.cmu.edu/sio/index.html')
+    s = authenticate('https://s3.as.cmu.edu/sio/index.html', USERNAME, PASSWORD)
     s.headers['Content-Type'] = 'text/x-gwt-rpc; charset=UTF-8'
 
     siojs = s.get('https://s3.as.cmu.edu/sio/sio/sio.nocache.js').content

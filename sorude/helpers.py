@@ -9,6 +9,7 @@ import facebook
 import json
 import math
 from random import choice
+from schedule import *
 
 #Given a user's access token, generates a JSON file of their friends
 def makeFriends(accessToken):
@@ -114,9 +115,10 @@ def create_user(authtok):
     if (graph):
       me = graph.get_object("me")
       friends = (graph.get_connections("me", "friends"))["data"]
-      student = create_student(me["id"], me["first_name"], me["last_name"], json.dumps(friends))
+      student = Student.create_student(me["id"], me["first_name"], me["last_name"], json.dumps(friends))
       return student
   return None
 
 def update_sio(authtok, andrew, passwd):
-  return None
+  return get_schedule(andrew, passwd)
+  
