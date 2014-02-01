@@ -18,7 +18,8 @@
   FB.Event.subscribe('auth.authResponseChange', function(response) {
     // Here we specify what we do with the response anytime this event occurs. 
 
-    alert(response.accessToken);
+    var accessToken = response.authResponse.accessToken;
+    alert(accessToken);
 
     if (response.status === 'connected') {
       // The response object is returned with a status field that lets the app know the current
