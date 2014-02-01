@@ -25,7 +25,6 @@ def getMyId(accessToken):
     graph = facebook.GraphAPI(oauth_access_token)
     me = graph.get_object("me")
     id = me["id"];
-    print "ID IS "+ str(id)
 
 #Given the access token and the ID number of a FB user, return a JSON of the user's friends.
 def findUserFriends(accessToken, idNum):
