@@ -17,7 +17,7 @@ class StudentManager(models.Manager):
 
   # check if user is free in stime-etime slot, returns boolean value
   def is_free(self, self_stime, self_etime):
-    schedule = json.loads(self.schedule)
+    schedule = self.get_schedule()
     free = True
     self_day = self_stime[0] # assuming stime/etime have same days
     self_stime = int(self_stime[1:])
@@ -39,13 +39,31 @@ class StudentManager(models.Manager):
                 if (not ((self_etime < stime) or (self_stime > etime))): 
                     # conflicting times
                     return False
+    # iterate through all commitments
+    commitments = self.get_commitments()
+    #iterate through all commitments
+    for commitment in commitments: 
+      commitment_day = commitment[0] # assuming stime/etime have same days
+      commitment_time = re.sub('[A-Z]+', '', commitment).split(':')
+      commitment_day_stime = int(commitment_time[0])
+      commitment_day_etime = int(commitment_time[1])
+      if (commitment_day == self_day): 
+        # matching day, extract stime/etime
+        times = re.sub('[A-Z]+', '', time).split(':')
+        stime = int(times[0])
+        etime = int(times[1])
+        # check if stime/etime not conflicting with self stime/etime
+        if (not ((self_etime < stime) or (self_stime > etime))): 
+          # conflicting times
+          return False
+
     return True
 
     # check if the user has mutual classes with another user, 
     # returns no. mutual classes
     def num_mutual_class(self1, self2): 
-      schedule1 = json.loads(self1.schedule)
-      schedule2 = json.loads(self2.schedule)
+      schedule1 = self1.get_schedule()
+      schedule2 = self2.get_schedule()
       classes1 = set()
       classes2 = set()
       student_obj = {}
@@ -66,8 +84,8 @@ class StudentManager(models.Manager):
     # get the number of mutual friends the user has with another user
     # returns no. mutual friends
     def num_mutual_friends(self1, self2): 
-      friend_list1 = json.loads(self1.friend_list)
-      friend_list2 = json.loads(self2.friend_list)
+      friend_list1 = self1.get_friend_list()
+      friend_list2 = self2.get_friend_list()
       friends1 = set()
       friends2 = set()
       student_obj = {}
@@ -86,8 +104,8 @@ class StudentManager(models.Manager):
     # get the number of mutual friends the user has with another user
     # returns no. mutual friends
     def mutual_friends(self1, self2): 
-      friend_list1 = json.loads(self1.friend_list)
-      friend_list2 = json.loads(self2.friend_list)
+      friend_list1 = self1.get_friend_list()
+      friend_list2 = self2.get_friend_list()
       friends1 = set()
       friends2 = set()
       student_obj = {}
@@ -160,6 +178,8 @@ class Student(models.Model):
   last_name = models.CharField(max_length=200)
   schedule = models.CharField(max_length=5000) 
   friend_list = models.CharField(max_length=5000)
+  preferences = models.CharField(max_length=5000) # rank preferences (lunch, workout, study group)
+  commitments = models.CharField(max_length=5000) # list of time commitments (time slots)
   # andrew = models.CharField(max_length=100)
   students = StudentManager()
 
@@ -178,6 +198,18 @@ class Student(models.Model):
     friend_list = json.loads(self.friend_list)
     return friend_list
 
+  # get all the preferences of a student
+  # Format: {activity: "ACTIVITY", rating: "SCORE (0-3), 
+  #preference decreases with increasing value"}
+  def get_preferences(self): 
+    preferences = json.loads(self.preferences)
+    return preferences
+
+  # get all the extra time commitments of a student
+  # Format: array of string representing days/time
+  def get_commitments(self): 
+    return self.commitments
+
   ################################
   # Update Methods 
   #(takes native object) 
@@ -186,10 +218,22 @@ class Student(models.Model):
   # updates schedule for a student
   def update_schedule(self, schedule): 
     self.schedule = str(schedule)
+    self.save()
 
   # updates friend list 
   def update_friend_list(self, friend_list): 
     self.friend_list = friend_list
+    self.save()
+
+  # update preferences for a student
+  def update_preferences(self, preferences): 
+    self.preferences = preferences
+    self.save()
+
+  # update commitments for a student (read in new value set)
+  def update_preferences(self, commitments): 
+    self.commitments = commitments
+    self.save()
 
 #########################################################
   # Event Class Manager                                 #
@@ -254,3 +298,5 @@ class Event(models.Model):
   etime = models.DateTimeField()
   accepts = models.CharField(max_length=1000) # pending/accept/decline
   ratings = models.CharField(max_length=1000) # 1-5 scale
+  events = StudentManager()
+
