@@ -20,7 +20,7 @@ def fb_auth(request):
   request.session["auth_tok"] = request.POST["auth_tok"]
   if (request.session["auth_tok"]): #There is an auth token
     if (is_user(request.session["auth_tok"])):
-      id_num = (facebook.GraphAPI(request.session["authtok"]).get_object("me"))["id"]
+      id_num = (facebook.GraphAPI(request.session["auth_tok"]).get_object("me"))["id"]
       if (Student.objects.get(fb_id=id_num).schedule == ""):
         return render(request, 'sorude/SIOpage/loginpage.html', {})
       return render(request, 'sorude/MainPage/main.html', {})
