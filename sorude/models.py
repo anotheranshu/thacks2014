@@ -5,7 +5,7 @@ import re
 
 # refer to https://docs.djangoproject.com/en/dev/topics/db/managers
 # section Calling custom QuerySet methods from Manager 
-class StudentManager(models.Manager)
+class StudentManager(models.Manager):
 
   # check if user is free in stime-etime slot, returns boolean value
   def is_free(self, self_stime, self_etime):
