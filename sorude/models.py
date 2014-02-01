@@ -103,7 +103,7 @@ class StudentManager(models.Manager):
     students = get_queryset() 
     free_students = []
     for student in students: 
-      if (is_free(student, stime, etime): 
+      if (is_free(student, stime, etime)): 
         free_students.append(student)
     return free_students
 
