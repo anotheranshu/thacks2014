@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 
 def index(request):
+  print "I'm in Index"
   return render(request, 'sorude/fbbutton.html', {})
 
 def fb_auth(request):
