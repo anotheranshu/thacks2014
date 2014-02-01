@@ -3,9 +3,17 @@ from django.contrib.auth.models import User
 from django.utils import simplejson as json
 import re
 
+#########################################################
+  # Student Class                                       #
+#########################################################
+
 # refer to https://docs.djangoproject.com/en/dev/topics/db/managers
 # section Calling custom QuerySet methods from Manager 
 class StudentManager(models.Manager):
+
+  ####################################
+  # Query Database Methods           #
+  ####################################
 
   # check if user is free in stime-etime slot, returns boolean value
   def is_free(self, self_stime, self_etime):
@@ -123,17 +131,45 @@ class StudentManager(models.Manager):
       mutual_students_list.append(students.mutual_students(self, student))
     return mutual_students_list
 
+  ####################################
+  # Create methods                   #
+  ####################################
+
+  # create student object
+  def create_student(self, first_name, last_name, config):
+        
+        # get schedule from sio
+        schedule = get_schedule()
+
+        # get friends/fb_id from fb 
+        # insert method here
+
+        # create student object
+        student = self.create(first_name=first_name, last_name=last_name, 
+                            schedule=schedule, fb_id=fb_id, 
+                            friend_list=friend_list)
+        return student
+
+#########################################################
+  # Student Class                                       #
+#########################################################
+
 class Student(models.Model):
+  fb_id = models.IntegerField(default=0, primary_key=True)
   first_name = models.CharField(max_length=200)
   last_name = models.CharField(max_length=200)
   schedule = models.CharField(max_length=5000) 
-  fb_id = models.IntegerField(default=0)
   friend_list = models.CharField(max_length=5000)
-  andrew = models.CharField(max_length=100)
-  freeStudents = StudentManager()
+  # andrew = models.CharField(max_length=100)
+  students = StudentManager()
+
+  ################################
+  # Getter Methods 
+  #(returns native format objects)
+  ################################
 
   # get the user schedule 
-  def get_user_schedule(self): 
+  def get_schedule(self): 
     schedule = json.loads(self.schedule)
     return schedule
 
@@ -142,8 +178,79 @@ class Student(models.Model):
     friend_list = json.loads(self.friend_list)
     return friend_list
 
+  ################################
+  # Update Methods 
+  #(takes native object) 
+  ################################
+
+  # updates schedule for a student
+  def update_schedule(self, schedule): 
+    self.schedule = str(schedule)
+
+  # updates friend list 
+  def update_friend_list(self, friend_list): 
+    self.friend_list = friend_list
+
+#########################################################
+  # Event Class Manager                                 #
+#########################################################
+
+class EventManager(models.Manager):
+  # create student object
+  def create_event(self, students, event_type, stime, etime): 
+    num_students = len(students.split(' '))
+    accepts = "pending" * num_students
+    ratings = "0" * num_students
+
+    event = self.create(students=students, event_type=event_type, 
+                        stime=stime, etime=etime, accepts=accepts, 
+                        ratings=ratings)
+    return event
+
+  ################################
+  # Getter Methods 
+  #(returns native format objects)
+  ################################
+
+  def get_ratings(self): 
+    ratings = self.ratings.split(' ')
+    return map(lambda x: int(x), ratings)
+
+  def get_accepts(self): 
+    accepts = self.accepts.split(' ')
+    return accepts
+
+  ################################
+  # Update Methods 
+  #(takes native object) 
+  ################################
+
+  # update accept for a given student
+  def update_accepts(self, student, accept): 
+    students = self.students.split(' ')
+    accepts = self.accepts.split(' ')
+    idx = students.index(student)
+    accepts[idx] = accept
+    self.accepts = accepts
+    self.save()
+
+  # update rating for a given student
+  def update_ratings(self, student, rating): 
+    students = self.students.split(' ')
+    ratings = self.ratings.split(' ')
+    idx = students.index(student)
+    ratings[idx] = rating
+    self.ratings = ratings
+    self.save()
+
+#########################################################
+  # Event Class                                         #
+#########################################################
+
 class Event(models.Model):
-  students = models.CharField(max_length=1000)
-  timestamp = models.DateTimeField()
-  accepts = models.CharField(max_length=1000)
-  ratings = models.CharField(max_length=1000)
+  students = models.CharField(max_length=1000) # invited students
+  event_type = models.CharField(max_length=100)
+  stime = models.DateTimeField()
+  etime = models.DateTimeField()
+  accepts = models.CharField(max_length=1000) # pending/accept/decline
+  ratings = models.CharField(max_length=1000) # 1-5 scale
