@@ -36,11 +36,6 @@ def diff(a, b):
 def intersect(a, b):
   b = set(b)
   return [aa for aa in a if aa in b]
-
-#def interval_dates(times):
-#  for t in times:
-#    m = re.match(r"([A-Z]+)", t)
-#    m.group(0)
     
 def is_user(authtok):
   if (authtok):
@@ -112,8 +107,7 @@ def create_user(authtok):
     if (graph):
       me = graph.get_object("me")
       friends = (graph.get_connections("me", "friends"))["data"]
-      student = Student(fb_id=me["id"], first_name=me["first_name"], last_name=me["last_name"], friend_list=json.dumps(friends))
-      student.save()
+      student = create_student(me["id"], me["first_name"], me["last_name"], json.dumps(friends))
       return student
   return None
 
