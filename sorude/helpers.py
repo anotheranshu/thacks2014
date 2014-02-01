@@ -44,18 +44,14 @@ def diff(a, b):
 def intersect(a, b):
   b = set(b)
   return [aa for aa in a if aa in b]
-
-#def interval_dates(times):
-#  for t in times:
-#    m = re.match(r"([A-Z]+)", t)
-#    m.group(0)
     
 def is_user(authtok):
   if (authtok):
     graph = facebook.GraphAPI(authtok)
     if (graph):
-      id_num = graph.get_object("me").id
+      id_num = (graph.get_object("me"))["id"]
       print str(id_num)
+      return True  #THIS LINE IS ONLY HERE FOR TESTING BEFORE WE ACTUALLY SET UP THE DATABASE
       return (len(Student.objects.filter(fb_id=int(id_num))) > 0)
   return False
 
@@ -112,3 +108,16 @@ def suggestEvent(self, self_stime, self_etime):
   else: 
     # not currently free
     return null
+
+def create_user(authtok):
+  if (authtok):
+    graph = facebook.GraphAPI(authtok)
+    if (graph):
+      me = graph.get_object("me")
+      friends = (graph.get_connections("me", "friends"))["data"]
+      student = create_student(me["id"], me["first_name"], me["last_name"], json.dumps(friends))
+      return student
+  return None
+
+def update_sio(authtok, andrew, passwd):
+  return None
