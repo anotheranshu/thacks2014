@@ -123,8 +123,6 @@ class StudentManager(models.Manager):
       mutual_students_list.append(students.mutual_students(self, student))
     return mutual_students_list
 
-class EventManager(models.Manager): 
-
 class Student(models.Model):
   user = models.OneToOneField(User)
   # schedule: [{'friend'
