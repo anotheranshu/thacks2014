@@ -124,8 +124,8 @@ class StudentManager(models.Manager):
     return mutual_students_list
 
 class Student(models.Model):
-  user = models.OneToOneField(User)
-  # schedule: [{'friend'
+  first_name = models.CharField(max_length=200)
+  last_name = models.CharField(max_length=200)
   schedule = models.CharField(max_length=5000) 
   fb_id = models.IntegerField(default=0)
   friend_list = models.CharField(max_length=5000)
