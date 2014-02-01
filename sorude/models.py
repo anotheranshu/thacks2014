@@ -132,12 +132,15 @@ class Student(models.Model):
   andrew = models.CharField(max_length=100)
   freeStudents = StudentManager()
 
+  # get the user schedule 
+  def get_user_schedule(self): 
+    schedule = json.loads(self.schedule)
+    return schedule
+
   # get all the friends a student
-  def get_fb_friends(self): 
-    friends = json.loads(self.friend_list)
-    for ()
-    fb_friends = self['friend_list'].split(' ') # space-delimited list of friends
-    return fb_friends
+  def get_friend_list(self): 
+    friend_list = json.loads(self.friend_list)
+    return friend_list
 
 class Event(models.Model):
   students = models.CharField(max_length=1000)
