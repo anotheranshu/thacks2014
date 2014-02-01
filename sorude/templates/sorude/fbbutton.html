@@ -3,30 +3,6 @@
 <body>
 <div id="fb-root"></div>
 <script>
-  function post_to_url(path, params, method) {
-    method = method || "post"; // Set method to post by default if not specified.
-
-    // The rest of this code assumes you are not using a library.
-    // It can be made less wordy if you use one.
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-
-    for(var key in params) {
-        if(params.hasOwnProperty(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-
-            form.appendChild(hiddenField);
-         }
-    }
-
-    document.body.appendChild(form);
-    form.submit();
-  } 
-
   window.fbAsyncInit = function() {
   FB.init({
     appId      : '199919400215789',
@@ -43,6 +19,8 @@
     // Here we specify what we do with the response anytime this event occurs. 
 
     var accessToken = response.authResponse.accessToken;
+    document.getElementById("authinput").setAttribute("value", accessToken);
+    document.getElementById("authform").submit();
     alert(accessToken);
 
     if (response.status === 'connected') {
@@ -94,5 +72,10 @@
   present a graphical Login button that triggers the FB.login() function when clicked. -->
 
 <fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+<form method="post" action="{% url 'fb_auth' %}" id="authform">
+{% csrf_token %}
+<input type="hidden" name="auth_tok" id="authinput"/>
+</form>
+
 </body>
 </html>
