@@ -1,7 +1,7 @@
 # Django settings for sorude project.
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
