@@ -11,4 +11,4 @@ from django.core.urlresolvers import reverse
 from django.contrib import messages
 
 def index(request):
-  return render(request, 'sorude/sorude.html', {})
+  return render(request, 'sorude/fbbutton.html', {})
