@@ -59,7 +59,7 @@ class StudentQuerySet(models.QuerySet):
       set_mutual = set1.intersection(set2)
       return len(set_mutual)
 
-class StudentManager(models.Manager)
+class StudentManager(models.Manager):
   def get_queryset(self): 
     return StudentQuerySet(self.model, using=self._db)
 
