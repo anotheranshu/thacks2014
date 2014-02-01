@@ -77,37 +77,6 @@ def get_sio():
                 class_obj['time'].append(days_time)
         schedule_model_data.append(class_obj)
 
-    self_stime = "T1500"
-    self_etime = "T1800"
-    print "self_stime: " + self_stime[1:] + " self_etime: " + self_etime[1:]
-    free = True
-    self_day = self_stime[0] # assuming stime/etime have same days
-    self_stime = int(self_stime[1:])
-    self_etime = int(self_etime[1:])
-    # iterate through all classes
-    for class_item in schedule_model_data: 
-      class_time = class_item['time']
-      # iterate through time items 
-      for time in class_time: 
-        # iterate through days, find matching day times 
-        days = re.findall('[A-Z]+', time)[0]
-        print "days" + days
-        print list(days)
-        for day in days: 
-            if (day == self_day): 
-                print "current day: " + day
-                # matching day, extract stime/etime
-                times = re.sub('[A-Z]+', '', time).split(':')
-                stime = int(times[0])
-                etime = int(times[1])
-                print "stime: " + str(stime) + " etime: " + str(etime)
-                # check if stime/etime not conflicting with self stime/etime
-                if (not ((self_etime < stime) or (self_stime > etime))): 
-                    # conflicting times
-                    print "conflict"
-                    return False
-    print "no conflict"
-
     #print schedule_model_data
     return schedule_model_data
 

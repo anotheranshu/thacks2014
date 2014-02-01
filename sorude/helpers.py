@@ -14,8 +14,8 @@ def intersect(a, b):
   b = set(b)
   return [aa for aa in a if aa in b]
 
-def interval_dates(times):
-  for t in times:
-    m = re.match(r"([A-Z]+)", t)
-    m.group(0)
+#def interval_dates(times):
+#  for t in times:
+#    m = re.match(r"([A-Z]+)", t)
+#    m.group(0)
     

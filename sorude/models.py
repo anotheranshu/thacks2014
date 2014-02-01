@@ -12,7 +12,8 @@ import re
 # section Calling custom QuerySet methods from Manager
 
 class StudentQuerySet(models.QuerySet): 
-  # check if user is free in stime-etime slot
+ 
+  # check if user is free in stime-etime slot, returns boolean value
   def is_free(self, self_stime, self_etime):
     schedule = json.loads(self.schedule)
     free = True
@@ -20,7 +21,7 @@ class StudentQuerySet(models.QuerySet):
     self_stime = int(self_stime[1:])
     self_etime = int(self_etime[1:])
     # iterate through all classes
-    for class_item in schedule_model_data: 
+    for class_item in schedule: 
       class_time = class_item['time']
       # iterate through time items 
       for time in class_time: 
@@ -38,10 +39,29 @@ class StudentQuerySet(models.QuerySet):
                     return False
     return True
 
+    # check if the user has mutual classes with another user, 
+    # returns no. mutual classes
+    def num_mutual_class(self1, self2): 
+      schedule1 = json.loads(self1.schedule)
+      schedule2 = json.loads(self2.schedule)
+      num = 0 
+      classes1 = set()
+      classes2 = set()
+      # iterate through all classes of user1, add classes to set
+      for class_item in schedule1: 
+        class_name = schedule1['class_name']
+        set1.add(class_name)
+      # iterate through all classes of user2, add classes to set
+      for class_item in schedule2: 
+        class_name = schedule2['class_name']
+        set2.add(class_name)
+      # find mutual classes 
+      set_mutual = set1.intersection(set2)
+      return len(set_mutual)
+
 class StudentManager(models.Manager)
   def get_queryset(self): 
-    return STudentQuerySet(self.model, using=self._db)
-  
+    return StudentQuerySet(self.model, using=self._db)
 
   def are_free(self, stime, etime): 
     return self.get_queryset().is_free()
