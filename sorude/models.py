@@ -3,11 +3,6 @@ from django.contrib.auth.models import User
 from django.utils import simplejson as json
 import re
 
-from django.db import models
-from django.contrib.auth.models import User
-from django.utils import simplejson as json
-import re
-
 # refer to https://docs.djangoproject.com/en/dev/topics/db/managers/#custom-managers 
 # section Calling custom QuerySet methods from Manager 
 
