@@ -20,7 +20,7 @@ def fb_auth(request):
   request.session["auth_tok"] = request.POST["auth_tok"]
   if (request.session["auth_tok"]):
     if (is_user(request.session["auth_tok"])):
-      return render(request, 'sorude/Homepage/hub.html', {})
+      return render(request, 'sorude/MainPage/main.html', {})
     else:
       if (create_user(request.session["auth_tok"])):
         return render(request, 'sorude/SIOpage/loginpage.html', {})
@@ -29,5 +29,5 @@ def fb_auth(request):
 def sio_request(request):
   if (request.session["auth_tok"] and request.POST["andrew"] and request.POST["passwd"]):
     update_sio(request.session["auth_tok"], request.POST["andrew"], request.POST["passwd"])
-    return render(request, 'sorude/Homepage/hub.html', {})
+    return render(request, 'sorude/MainPage/main.html', {})
   return render(request, 'sorude/fbbutton.html', {})
